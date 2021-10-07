@@ -16,25 +16,25 @@ const (
 
 func main() {
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s dbname=%s sslmode=disable", host, port, user, dbname)
-	us, err := models.NewUserService(psqlInfo)
+	services, err := models.NewServices(psqlInfo)
 	if err != nil {
 		panic(err)
 	}
-	defer us.Close()
-	us.DestructiveReset()
+	// defer us.Close()
+	// us.DestructiveReset()
 	
 	user := models.User{
 		Name:  "Mich James",
 		Email: "Mich@gmail.com",
 	}
-	if err := us.Create(&user); err != nil {
+	if err := services.User.Create(&user); err != nil {
 		panic(err)
 	}
-	if err := us.Delete(user.ID); err != nil {
+	if err := services.User.Delete(user.ID); err != nil {
 		panic(err)
 	}
 
-	userById, err := us.ByID(user.ID)
+	userById, err := services.User.ByID(user.ID)
 	if err != nil {
 		panic(err)
 	}
